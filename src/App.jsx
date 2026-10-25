@@ -9,6 +9,7 @@ import AdminDashboard from "./pages/admin/dashboard/AdminDashboard";
 import SiteSettings from "./pages/admin/settings/SiteSettings";
 import AdminProfile from "./pages/admin/profile/AdminProfile";
 import UserLayout from "./layout/UserLayout";
+import ComingSoonPage from "./pages/ComingSoonPage";
 
 const App = () => {
   return (
@@ -23,11 +24,16 @@ const App = () => {
 
         {/* Admin Layout */}
         <Route path="/admin" element={<AdminLayout />}>
-          <Route index element={<AdminDashboard />} />
+          {/* <Route index element={<AdminDashboard />} /> */}
+          <Route index element={<h1>Admin Dashboard</h1>} />
           {/* Additional admin routes can be added here */}
           <Route path="site-settings" element={<SiteSettings />} />
           <Route path="profile" element={<AdminProfile />} />
         </Route>
+
+
+
+        <Route path="*" element={<ComingSoonPage />} />
       </Routes>
     </Router>
   );

@@ -1,318 +1,354 @@
-import React, { useState } from "react";
+
+import React, { useEffect, useState } from "react";
 import {
-  X,
-  LayoutDashboard,
+  Home,
   Users,
+  BriefcaseBusiness,
+  GraduationCap,
+  BadgeCheck,
+  Wallet,
+  MessageCircle,
+  ShieldPlus,
+  Globe2,
+  HeartHandshake,
+  Building2,
+  ChartNoAxesCombined,
+  LockKeyhole,
+  PanelsTopLeft,
   Settings,
-  Package,
-  BarChart,
-  ShoppingCart,
-  FileText,
-  ChevronDown,
   ChevronRight,
-  Bell,
-  Shield,
-  Database,
-  Palette,
-  Globe,
-  Mail,
-  UserCog,
-  Tag,
-  TrendingUp,
-  DollarSign,
-  Clock,
-  Star,
-  User2,
+  UserRoundCog,
+  X,
 } from "lucide-react";
 import { useNavigate, useLocation } from "react-router-dom";
+
+const NAVBAR_HEIGHT = 81;
+const SIDEBAR_WIDTH = 250;
+
+const menuItems = [
+  {
+    id: "dashboard",
+    label: "Dashboard",
+    icon: Home,
+    path: "/admin",
+  },
+  {
+    id: "workers",
+    label: "Workers",
+    icon: Users,
+    children: [
+      { label: "All Workers", path: "/admin/workers" },
+      { label: "Worker Registration", path: "/admin/workers/registration" },
+      { label: "Worker Verification", path: "/admin/workers/verification" },
+    ],
+  },
+  {
+    id: "employment",
+    label: "Overseas Employment",
+    icon: BriefcaseBusiness,
+    children: [
+      { label: "Job Opportunities", path: "/admin/employment/jobs" },
+      { label: "Applications", path: "/admin/employment/applications" },
+      { label: "Recruitment Agencies", path: "/admin/employment/agencies" },
+    ],
+  },
+  {
+    id: "training",
+    label: "training",
+    label: "Training & Skills",
+    icon: GraduationCap,
+    children: [
+      { label: "Training Programs", path: "/admin/training/programs" },
+      { label: "Training Centers", path: "/admin/training/centers" },
+      { label: "Certifications", path: "/admin/training/certifications" },
+    ],
+  },
+  {
+    id: "bmet",
+    label: "BMET Clearance",
+    icon: BadgeCheck,
+    children: [
+      { label: "Clearance Applications", path: "/admin/bmet/applications" },
+      { label: "Clearance Verification", path: "/admin/bmet/verification" },
+    ],
+  },
+  {
+    id: "payments",
+    label: "Payments & Remittance",
+    icon: Wallet,
+    children: [
+      { label: "Payments", path: "/admin/payments" },
+      { label: "Remittance Records", path: "/admin/remittance" },
+    ],
+  },
+  {
+    id: "grievances",
+    label: "Grievances & Support",
+    icon: MessageCircle,
+    children: [
+      { label: "All Grievances", path: "/admin/grievances" },
+      { label: "Support Requests", path: "/admin/support" },
+    ],
+  },
+  {
+    id: "insurance",
+    label: "Insurance & Claims",
+    icon: ShieldPlus,
+    children: [
+      { label: "Insurance Policies", path: "/admin/insurance" },
+      { label: "Claims", path: "/admin/insurance/claims" },
+    ],
+  },
+  {
+    id: "missions",
+    label: "Overseas Missions",
+    icon: Globe2,
+    children: [
+      { label: "Mission Directory", path: "/admin/missions" },
+      { label: "Mission Contacts", path: "/admin/missions/contacts" },
+    ],
+  },
+  {
+    id: "reintegration",
+    label: "Reintegration",
+    icon: HeartHandshake,
+    path: "/admin/reintegration",
+  },
+  {
+    id: "agencies",
+    label: "Agencies & Employers",
+    icon: Building2,
+    children: [
+      { label: "Agencies", path: "/admin/agencies" },
+      { label: "Employers", path: "/admin/employers" },
+    ],
+  },
+  {
+    id: "reports",
+    label: "Reports & Analytics",
+    icon: ChartNoAxesCombined,
+    children: [
+      { label: "Overview", path: "/admin/reports" },
+      { label: "Worker Reports", path: "/admin/reports/workers" },
+      { label: "Employment Reports", path: "/admin/reports/employment" },
+    ],
+  },
+  {
+    id: "fraud",
+    label: "Fraud & Risk",
+    icon: LockKeyhole,
+    children: [
+      { label: "Risk Monitoring", path: "/admin/fraud" },
+      { label: "Reported Cases", path: "/admin/fraud/cases" },
+    ],
+  },
+  {
+    id: "content",
+    label: "Content Management",
+    icon: PanelsTopLeft,
+    children: [
+      { label: "Website Pages", path: "/admin/content/pages" },
+      { label: "News & Updates", path: "/admin/content/news" },
+      { label: "FAQs", path: "/admin/content/faqs" },
+    ],
+  },
+  {
+    id: "users",
+    label: "User Management",
+    icon: UserRoundCog,
+    children: [
+      { label: "All Users", path: "/admin/users" },
+      { label: "Roles & Permissions", path: "/admin/users/roles" },
+    ],
+  },
+  {
+    id: "settings",
+    label: "System Settings",
+    icon: Settings,
+    children: [
+      { label: "General Settings", path: "/admin/site-settings" },
+      { label: "Appearance", path: "/admin/settings/appearance" },
+      { label: "Notifications", path: "/admin/settings/notifications" },
+      { label: "Integrations", path: "/admin/settings/integrations" },
+      { label: "Admin Profile", path: "/admin/profile" },
+    ],
+  },
+];
 
 const AdminSidebar = ({ isOpen, setIsOpen }) => {
   const navigate = useNavigate();
   const location = useLocation();
   const [openDropdowns, setOpenDropdowns] = useState({});
 
-  const menuItems = [
-    {
-      id: "dashboard",
-      label: "Dashboard",
-      icon: <LayoutDashboard className="w-5 h-5" />,
-      path: "/admin",
-    },
-    {
-      id: "profile",
-      label: "Profile",
-      icon: <User2 className="w-5 h-5" />,
-      path: "/admin/profile",
-    },
-    {
-      id: "users",
-      label: "Users Management",
-      icon: <Users className="w-5 h-5" />,
-      children: [
-        {
-          id: "all-users",
-          label: "All Users",
-          icon: <Users className="w-4 h-4" />,
-          path: "/admin/users/all",
-        },
-        {
-          id: "user-roles",
-          label: "User Roles",
-          icon: <UserCog className="w-4 h-4" />,
-          path: "/admin/users/roles",
-        },
-        {
-          id: "permissions",
-          label: "Permissions",
-          icon: <Shield className="w-4 h-4" />,
-          path: "/admin/users/permissions",
-        },
-      ],
-    },
-    {
-      id: "products",
-      label: "Products",
-      icon: <Package className="w-5 h-5" />,
-      children: [
-        {
-          id: "all-products",
-          label: "All Products",
-          icon: <Package className="w-4 h-4" />,
-          path: "/admin/products/all",
-        },
-        {
-          id: "categories",
-          label: "Categories",
-          icon: <Tag className="w-4 h-4" />,
-          path: "/admin/products/categories",
-        },
-        {
-          id: "inventory",
-          label: "Inventory",
-          icon: <Database className="w-4 h-4" />,
-          path: "/admin/products/inventory",
-        },
-      ],
-    },
-    {
-      id: "orders",
-      label: "Orders",
-      icon: <ShoppingCart className="w-5 h-5" />,
-      path: "/admin/orders",
-    },
-    {
-      id: "analytics",
-      label: "Analytics",
-      icon: <BarChart className="w-5 h-5" />,
-      children: [
-        {
-          id: "overview",
-          label: "Overview",
-          icon: <TrendingUp className="w-4 h-4" />,
-          path: "/admin/analytics/overview",
-        },
-        {
-          id: "sales",
-          label: "Sales Analytics",
-          icon: <DollarSign className="w-4 h-4" />,
-          path: "/admin/analytics/sales",
-        },
-        {
-          id: "user-behavior",
-          label: "User Behavior",
-          icon: <Users className="w-4 h-4" />,
-          path: "/admin/analytics/behavior",
-        },
-      ],
-    },
-    {
-      id: "reports",
-      label: "Reports",
-      icon: <FileText className="w-5 h-5" />,
-      path: "/admin/reports",
-    },
-    {
-      id: "settings",
-      label: "Settings",
-      icon: <Settings className="w-5 h-5" />,
-      children: [
-        {
-          id: "SiteSettings",
-          label: "Site Setting",
-          icon: <Settings className="w-4 h-4" />,
-          path: "/admin/site-settings",
-        },
-        {
-          id: "appearance",
-          label: "Appearance",
-          icon: <Palette className="w-4 h-4" />,
-          path: "/admin/settings/appearance",
-        },
-        {
-          id: "notifications",
-          label: "Notifications",
-          icon: <Bell className="w-4 h-4" />,
-          path: "/admin/settings/notifications",
-        },
-        {
-          id: "integrations",
-          label: "Integrations",
-          icon: <Globe className="w-4 h-4" />,
-          path: "/admin/settings/integrations",
-        },
-      ],
-    },
-  ];
-
-  const toggleDropdown = (id) => {
-    setOpenDropdowns((prev) => ({
-      ...prev,
-      [id]: !prev[id],
-    }));
-  };
-
   const isActive = (path) => location.pathname === path;
 
-  const isParentActive = (children) => {
-    return children?.some((child) => location.pathname === child.path);
-  };
+  const isParentActive = (item) =>
+    item.children?.some(
+      (child) =>
+        location.pathname === child.path ||
+        location.pathname.startsWith(`${child.path}/`)
+    );
 
+  // Automatically expand the menu containing the current route.
+  useEffect(() => {
+    const activeMenus = {};
+
+    menuItems.forEach((item) => {
+      if (isParentActive(item)) {
+        activeMenus[item.id] = true;
+      }
+    });
+
+    setOpenDropdowns((previous) => ({
+      ...previous,
+      ...activeMenus,
+    }));
+  }, [location.pathname]);
+
+  // Close the mobile drawer when navigating.
   const handleNavigation = (path) => {
+    if (!path) return;
+
     navigate(path);
     setIsOpen(false);
   };
 
+  const toggleDropdown = (id) => {
+    setOpenDropdowns((previous) => ({
+      ...previous,
+      [id]: !previous[id],
+    }));
+  };
+
   return (
     <>
-      {/* Overlay for mobile */}
+      {/* Mobile overlay starts below the navbar */}
       {isOpen && (
-        <div
-          className="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 lg:hidden transition-opacity duration-300"
+        <button
+          type="button"
+          aria-label="Close sidebar overlay"
           onClick={() => setIsOpen(false)}
+          className="fixed inset-x-0 bottom-0 top-[81px] z-40 bg-black/20 lg:hidden"
         />
       )}
 
-      {/* Sidebar */}
+      {/* Sidebar begins immediately below the full-width navbar */}
       <aside
-        className={`fixed inset-y-0 left-0 z-50 w-72 
-  bg-gradient-to-b from-slate-900 to-slate-800 
-  shadow-2xl transform transition-transform duration-300 ease-in-out
-  ${isOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"}`}
+        style={{
+          top: `${NAVBAR_HEIGHT}px`,
+          height: `calc(100dvh - ${NAVBAR_HEIGHT}px)`,
+          width: `${SIDEBAR_WIDTH}px`,
+        }}
+        className={`fixed left-0 z-40 flex flex-col border-r border-[#153452] bg-[#031a35] text-white transition-transform duration-300 ${
+          isOpen
+            ? "translate-x-0"
+            : "-translate-x-full lg:translate-x-0"
+        }`}
       >
-        {/* Header */}
-        <div className=" sticky flex top-0 z-50 bg-slate-900 items-center justify-between p-6 border-b border-slate-700/50">
-          <div className="flex items-center space-x-3">
-            <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-xl flex items-center justify-center shadow-lg">
-              <LayoutDashboard className="w-5 h-5 text-white" />
-            </div>
-            <div>
-              <h2 className="text-lg font-bold text-white">Admin Panel</h2>
-              <p className="text-xs text-slate-400">Management Console</p>
-            </div>
-          </div>
-          <button
-            onClick={() => setIsOpen(false)}
-            className="p-2 rounded-lg hover:bg-slate-700/50 transition-colors lg:hidden text-slate-300 hover:text-white"
-          >
-            <X className="w-5 h-5" />
-          </button>
-        </div>
-
         {/* Navigation */}
-        <nav className="p-4 space-y-1 overflow-y-auto h-[calc(100vh-100px)] custom-scrollbar">
-          {menuItems.map((item) => (
-            <div key={item.id}>
-              {/* Parent Item */}
-              {item.children ? (
-                <button
-                  onClick={() => toggleDropdown(item.id)}
-                  className={`w-full flex items-center justify-between px-4 py-3 rounded-lg transition-all duration-200 group ${
-                    isParentActive(item.children)
-                      ? "bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-lg shadow-blue-500/30"
-                      : "text-slate-300 hover:bg-slate-700/50 hover:text-white"
-                  }`}
-                >
-                  <div className="flex items-center space-x-3">
-                    <div
-                      className={`${
-                        isParentActive(item.children)
-                          ? "text-white"
-                          : "text-slate-400 group-hover:text-white"
-                      } transition-colors`}
-                    >
-                      {item.icon}
-                    </div>
-                    <span className="font-medium text-sm">{item.label}</span>
-                  </div>
-                  <div
-                    className={`transition-transform duration-200 ${
-                      openDropdowns[item.id] ? "rotate-180" : ""
+        <nav className="custom-scrollbar flex-1 space-y-[3px] overflow-x-hidden overflow-y-auto px-[7px] py-2">
+          {menuItems.map((item) => {
+            const Icon = item.icon;
+            const active = item.path
+              ? isActive(item.path)
+              : Boolean(isParentActive(item));
+            const expanded = Boolean(openDropdowns[item.id]);
+
+            return (
+              <div key={item.id}>
+                {item.children ? (
+                  <button
+                    type="button"
+                    onClick={() => toggleDropdown(item.id)}
+                    aria-expanded={expanded}
+                    className={`group flex min-h-[29px] w-full items-center justify-between gap-2 rounded-[5px] border-l-2 px-[7px] py-[6px] text-left transition-colors ${
+                      active
+                        ? "border-[#11a7ff] bg-[#073e86] text-white"
+                        : "border-transparent text-slate-200 hover:bg-[#0b2b4b] hover:text-white"
                     }`}
                   >
-                    <ChevronDown className="w-4 h-4" />
-                  </div>
-                </button>
-              ) : (
-                <button
-                  onClick={() => handleNavigation(item.path)}
-                  className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg transition-all duration-200 group ${
-                    isActive(item.path)
-                      ? "bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-lg shadow-blue-500/30"
-                      : "text-slate-300 hover:bg-slate-700/50 hover:text-white"
-                  }`}
-                >
-                  <div
-                    className={`${
-                      isActive(item.path)
-                        ? "text-white"
-                        : "text-slate-400 group-hover:text-white"
-                    } transition-colors`}
-                  >
-                    {item.icon}
-                  </div>
-                  <span className="font-medium text-sm">{item.label}</span>
-                </button>
-              )}
-
-              {/* Dropdown Children */}
-              {item.children && (
-                <div
-                  className={`overflow-hidden transition-all duration-300 ease-in-out ${
-                    openDropdowns[item.id]
-                      ? "max-h-96 opacity-100 mt-1"
-                      : "max-h-0 opacity-0"
-                  }`}
-                >
-                  <div className="ml-4 pl-4 border-l-2 border-slate-700/50 space-y-1 py-1">
-                    {item.children.map((child) => (
-                      <button
-                        key={child.id}
-                        onClick={() => handleNavigation(child.path)}
-                        className={`w-full flex items-center space-x-3 px-4 py-2.5 rounded-lg transition-all duration-200 group ${
-                          isActive(child.path)
-                            ? "bg-blue-500/20 text-blue-400 border-l-2 border-blue-400"
-                            : "text-slate-400 hover:bg-slate-700/30 hover:text-slate-200"
+                    <span className="flex min-w-0 items-center gap-[9px] ">
+                      <Icon
+                        size={14}
+                        strokeWidth={1.8}
+                        className={`shrink-0 ${
+                          active
+                            ? "text-white"
+                            : "text-slate-300 group-hover:text-white"
                         }`}
-                      >
-                        <div
-                          className={`${
-                            isActive(child.path)
-                              ? "text-blue-400"
-                              : "text-slate-500 group-hover:text-slate-300"
-                          } transition-colors`}
-                        >
-                          {child.icon}
-                        </div>
-                        <span className="font-medium text-sm">
-                          {child.label}
-                        </span>
-                      </button>
-                    ))}
+                      />
+                      <span className="truncate text-[13px] font-medium leading-4">
+                        {item.label}
+                      </span>
+                    </span>
+
+                    <ChevronRight
+                      size={13}
+                      className={`shrink-0 transition-transform duration-200 ${
+                        expanded ? "rotate-90" : ""
+                      } ${active ? "text-white" : "text-slate-400"}`}
+                    />
+                  </button>
+                ) : (
+                  <button
+                    type="button"
+                    onClick={() => handleNavigation(item.path)}
+                    className={`group flex min-h-[29px] w-full items-center gap-[9px] rounded-[5px] border-l-2 px-[7px] py-[6px] text-left transition-colors ${
+                      active
+                        ? "border-[#11a7ff] bg-[#073e86] text-white"
+                        : "border-transparent text-slate-200 hover:bg-[#0b2b4b] hover:text-white"
+                    }`}
+                  >
+                    <Icon
+                      size={14}
+                      strokeWidth={1.8}
+                      className="shrink-0 text-slate-300 group-hover:text-white"
+                    />
+                    <span className="truncate text-[10px] font-medium leading-4">
+                      {item.label}
+                    </span>
+                  </button>
+                )}
+
+                {/* Dropdown children */}
+                {item.children && (
+                  <div
+                    className={`grid transition-[grid-template-rows,opacity] duration-200 ${
+                      expanded
+                        ? "grid-rows-[1fr] opacity-100"
+                        : "grid-rows-[0fr] opacity-0"
+                    }`}
+                  >
+                    <div className="overflow-hidden">
+                      <div className="ml-[14px] mt-1 space-y-0.5 border-l border-[#23415e] py-0.5 pl-2">
+                        {item.children.map((child) => {
+                          const childActive = isActive(child.path);
+
+                          return (
+                            <button
+                              type="button"
+                              key={child.path}
+                              onClick={() => handleNavigation(child.path)}
+                              className={`flex min-h-[27px] w-full items-center gap-2 rounded px-2 py-1 text-left transition-colors ${
+                                childActive
+                                  ? "bg-[#0b3157] text-[#67c5ff]"
+                                  : "text-slate-400 hover:bg-[#0b2b4b] hover:text-white"
+                              }`}
+                            >
+                              <span className="h-1 w-1 shrink-0 rounded-full bg-current" />
+                              <span className="truncate text-[10px]">
+                                {child.label}
+                              </span>
+                            </button>
+                          );
+                        })}
+                      </div>
+                    </div>
                   </div>
-                </div>
-              )}
-            </div>
-          ))}
+                )}
+              </div>
+            );
+          })}
         </nav>
       </aside>
     </>
