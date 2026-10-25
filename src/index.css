@@ -1,0 +1,517 @@
+
+@import "tailwindcss";
+
+/* ========================================
+   PROBASHI SEBA — GLOBAL DESIGN SYSTEM
+======================================== */
+
+:root {
+  font-family: Inter, "Segoe UI", Arial, sans-serif;
+  color-scheme: light;
+
+  /* Brand colors */
+  --brand-primary: #0866F5;
+  --brand-primary-hover: #0052CC;
+  --brand-primary-dark: #063B7A;
+  --brand-secondary: #0B2A66;
+  --brand-accent: #16A8FF;
+
+  /* Page backgrounds */
+  --bg-page: #F5F9FF;
+  --bg-surface: #FFFFFF;
+  --bg-soft: #EFF6FF;
+  --bg-hover: #E5EFFF;
+
+  /* Text colors */
+  --text-primary: #0B2A66;
+  --text-secondary: #526789;
+  --text-muted: #8294B1;
+  --text-inverse: #FFFFFF;
+
+  /* Borders and shadows */
+  --border-color: #DCE7F5;
+  --border-strong: #B8CCE8;
+  --shadow-card: 0 4px 18px rgb(11 42 102 / 6%);
+  --shadow-button: 0 4px 10px rgb(8 102 245 / 16%);
+
+  /* Status colors */
+  --color-success: #079455;
+  --color-success-bg: #E5F8EE;
+  --color-warning: #E99A00;
+  --color-warning-bg: #FFF5D8;
+  --color-danger: #E53945;
+  --color-danger-bg: #FFE9EC;
+  --color-info: #1685E8;
+  --color-info-bg: #E8F4FF;
+
+  /* Admin dashboard chart colors */
+  --chart-blue: #1677FF;
+  --chart-cyan: #00D5F5;
+  --chart-green: #10D98A;
+  --chart-purple: #8B5CF6;
+  --chart-orange: #FF8A35;
+  --chart-red: #FF3B45;
+
+  /* Layout */
+  --sidebar-width: 232px;
+  --navbar-height: 80px;
+
+  /* Border radius */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 22px;
+
+  /* Login hero decorative colors */
+  --color-feature-blue: #0755C9;
+  --color-feature-blue-bg: #DCEEFF;
+  --color-feature-green: #008C60;
+  --color-feature-green-bg: #DDF8EB;
+  --color-feature-purple: #7138E8;
+  --color-feature-purple-bg: #EEE4FF;
+  --color-feature-red: #E92736;
+  --color-feature-red-bg: #FFE5DE;
+
+  --color-wave-primary: #06336B;
+  --color-wave-secondary: #0755A8;
+  --color-wave-text: #FFFFFF;
+}
+
+/* ========================================
+   USER PORTAL THEME
+   Login, Register, Profile, Worker Dashboard
+======================================== */
+
+.theme-user {
+  color-scheme: light;
+
+  --brand-primary: #0866F5;
+  --brand-primary-hover: #0052CC;
+  --brand-primary-dark: #063B7A;
+  --brand-secondary: #0B2A66;
+  --brand-accent: #16A8FF;
+
+  --bg-page: #F5F9FF;
+  --bg-surface: #FFFFFF;
+  --bg-soft: #EFF6FF;
+  --bg-hover: #E5EFFF;
+
+  --text-primary: #0B2A66;
+  --text-secondary: #526789;
+  --text-muted: #8294B1;
+  --text-inverse: #FFFFFF;
+
+  --border-color: #DCE7F5;
+  --border-strong: #B8CCE8;
+
+  --shadow-card: 0 4px 18px rgb(11 42 102 / 6%);
+  --shadow-button: 0 4px 10px rgb(8 102 245 / 16%);
+}
+
+/* ========================================
+   ADMIN / SUPER ADMIN THEME
+   Dark analytics dashboard
+======================================== */
+
+.theme-admin {
+  color-scheme: dark;
+
+  --brand-primary: #1677FF;
+  --brand-primary-hover: #4090FF;
+  --brand-primary-dark: #0755C9;
+  --brand-secondary: #00D5F5;
+  --brand-accent: #00D5F5;
+
+  --bg-page: #04172E;
+  --bg-surface: #061F3D;
+  --bg-soft: #08284D;
+  --bg-hover: #103761;
+
+  --text-primary: #F3F8FF;
+  --text-secondary: #B8CDE8;
+  --text-muted: #88A7CB;
+  --text-inverse: #FFFFFF;
+
+  --border-color: #164773;
+  --border-strong: #23628F;
+
+  --shadow-card: 0 4px 20px rgb(0 0 0 / 15%);
+  --shadow-button: 0 4px 12px rgb(22 119 255 / 20%);
+}
+
+/* ========================================
+   LOGIN PAGE VARIABLE COMPATIBILITY
+   Supports the existing LoginPage.jsx
+======================================== */
+
+:root,
+.theme-user,
+.theme-admin {
+  --color-primary: var(--brand-primary);
+  --color-primary-hover: var(--brand-primary-hover);
+  --color-primary-dark: var(--brand-primary-dark);
+  --color-on-primary: var(--text-inverse);
+
+  --color-page-bg: var(--bg-page);
+  --color-hero-bg: var(--bg-soft);
+  --color-surface: var(--bg-surface);
+  --color-surface-muted: var(--bg-soft);
+  --color-secondary-bg: var(--bg-surface);
+  --color-secondary-hover-bg: var(--bg-hover);
+
+  --color-heading: var(--text-primary);
+  --color-text: var(--text-primary);
+  --color-text-muted: var(--text-muted);
+  --color-text-secondary: var(--text-secondary);
+  --color-link: var(--brand-primary);
+
+  --color-border: var(--border-color);
+  --color-input-border: var(--border-strong);
+  --color-icon: var(--text-secondary);
+  --color-secondary-text: var(--text-primary);
+  --color-secondary-border: var(--border-strong);
+
+  --color-focus-ring: rgb(8 102 245 / 14%);
+}
+
+/* ========================================
+   BASE STYLES
+======================================== */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  min-width: 320px;
+  min-height: 100vh;
+  margin: 0;
+  background: var(--bg-page);
+  color: var(--text-primary);
+  font-family: Inter, "Segoe UI", Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+button:disabled {
+  cursor: not-allowed;
+}
+
+img,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+a {
+  /* color: var(--brand-primary); */
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: none;
+}
+
+::selection {
+  background: var(--brand-primary);
+  color: var(--text-inverse);
+}
+
+/* ========================================
+   REUSABLE BUTTONS
+   Usage: btn btn-primary
+======================================== */
+
+@layer components {
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-lg border px-5 py-2.5 text-sm font-semibold transition-all duration-200;
+  }
+
+  .btn-primary {
+    background: var(--brand-primary);
+    color: var(--text-inverse);
+    border-color: var(--brand-primary);
+    box-shadow: var(--shadow-button);
+  }
+
+  .btn-primary:hover {
+    background: var(--brand-primary-hover);
+    border-color: var(--brand-primary-hover);
+  }
+
+  .btn-secondary {
+    background: var(--bg-surface);
+    color: var(--brand-primary);
+    border-color: var(--brand-primary);
+  }
+
+  .btn-secondary:hover {
+    background: var(--brand-primary);
+    color: var(--text-inverse);
+  }
+
+  .btn-outline {
+    background: transparent;
+    color: var(--text-primary);
+    border-color: var(--border-strong);
+  }
+
+  .btn-outline:hover {
+    background: var(--bg-hover);
+    border-color: var(--brand-primary);
+  }
+
+  .btn-danger {
+    background: var(--color-danger);
+    color: #FFFFFF;
+    border-color: var(--color-danger);
+  }
+
+  .btn-success {
+    background: var(--color-success);
+    color: #FFFFFF;
+    border-color: var(--color-success);
+  }
+
+  .btn:disabled {
+    opacity: 0.55;
+    box-shadow: none;
+  }
+
+  /* Login page primary button */
+  .primary-button {
+    @apply inline-flex min-h-12 items-center justify-center gap-2 rounded-lg border px-5 py-3 font-semibold transition-all duration-200;
+    background: var(--brand-primary-dark);
+    color: var(--text-inverse);
+    border-color: var(--brand-primary-dark);
+    box-shadow: var(--shadow-button);
+  }
+
+  .primary-button:hover {
+    background: var(--brand-primary);
+    border-color: var(--brand-primary);
+  }
+
+  /* Login page secondary button */
+  .secondary-button {
+    @apply inline-flex min-h-12 items-center justify-center gap-2 rounded-lg border px-5 py-3 font-semibold transition-all duration-200;
+    background: var(--bg-surface);
+    color: var(--text-primary);
+    border-color: var(--border-strong);
+  }
+
+  .secondary-button:hover {
+    background: var(--bg-hover);
+    border-color: var(--brand-primary);
+  }
+}
+
+/* ========================================
+   CARDS AND PANELS
+======================================== */
+
+@layer components {
+  .card {
+    background: var(--bg-surface);
+    color: var(--text-primary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-card);
+  }
+
+  .card-header {
+    padding: 16px 20px;
+    border-bottom: 1px solid var(--border-color);
+  }
+
+  .card-body {
+    padding: 20px;
+  }
+
+  .panel {
+    background: var(--bg-surface);
+    color: var(--text-primary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+  }
+}
+
+/* ========================================
+   FORM CONTROLS
+======================================== */
+
+@layer components {
+  .form-label {
+    display: block;
+    margin-bottom: 7px;
+    color: var(--text-primary);
+    font-size: 14px;
+    font-weight: 600;
+  }
+
+  .form-control,
+  .form-select {
+    display: block;
+    width: 100%;
+    min-height: 44px;
+    padding: 10px 12px;
+    color: var(--text-primary);
+    background: var(--bg-surface);
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius-sm);
+    outline: none;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .form-control::placeholder {
+    color: var(--text-muted);
+  }
+
+  .form-control:focus,
+  .form-select:focus {
+    border-color: var(--brand-primary);
+    box-shadow: 0 0 0 3px var(--color-focus-ring);
+  }
+
+  /* Login page input wrapper */
+  .input-container {
+    @apply flex min-h-[50px] items-center gap-3 rounded-lg border px-3 transition-all duration-200;
+    background: var(--bg-surface);
+    border-color: var(--border-strong);
+    color: var(--text-secondary);
+  }
+
+  .input-container:focus-within {
+    border-color: var(--brand-primary);
+    box-shadow: 0 0 0 3px var(--color-focus-ring);
+  }
+
+  .form-input {
+    @apply w-full min-w-0 border-0 bg-transparent py-3 outline-none;
+    color: var(--text-primary);
+  }
+
+  .form-input::placeholder {
+    color: var(--text-muted);
+  }
+}
+
+/* ========================================
+   STATUS BADGES
+======================================== */
+
+@layer components {
+  .badge {
+    @apply inline-flex items-center gap-1 rounded-md px-2.5 py-1 text-xs font-semibold;
+  }
+
+  .badge-success {
+    background: var(--color-success-bg);
+    color: var(--color-success);
+  }
+
+  .badge-warning {
+    background: var(--color-warning-bg);
+    color: var(--color-warning);
+  }
+
+  .badge-danger {
+    background: var(--color-danger-bg);
+    color: var(--color-danger);
+  }
+
+  .badge-info {
+    background: var(--color-info-bg);
+    color: var(--color-info);
+  }
+}
+
+/* ========================================
+   CUSTOM SCROLLBAR
+======================================== */
+
+.custom-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: var(--brand-primary) var(--bg-soft);
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: var(--bg-soft);
+  border-radius: 10px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: linear-gradient(
+    180deg,
+    var(--brand-primary),
+    var(--brand-accent)
+  );
+  border-radius: 10px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: var(--brand-primary-hover);
+}
+
+/* ========================================
+   RESPONSIVE UTILITIES
+======================================== */
+
+@media (max-width: 768px) {
+  :root {
+    --sidebar-width: 0px;
+    --navbar-height: 64px;
+  }
+
+  .card-body {
+    padding: 14px;
+  }
+
+  .btn {
+    min-height: 42px;
+  }
+
+  .card-header {
+    padding: 12px 14px;
+  }
+}
+
+/* ========================================
+   ACCESSIBILITY
+======================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
