@@ -1,28 +1,34 @@
+
 import React from "react";
+
+import DashboardStatCards from "./components/DashboardStatCards";
+import GeographicDrilldown from "./components/GeographicDrilldown";
+import FraudHeatmap from "./components/FraudHeatmap";
+import RemittanceAnalytics from "./components/RemittanceAnalytics";
+import DashboardSummaryCards from "./components/DashboardSummaryCards";
 
 const AdminDashboard = () => {
   return (
-    <div>
-      <h1 className="text-2xl font-bold text-gray-900 mb-6">Dashboard</h1>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        {/* Stats cards */}
-        <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
-          <h3 className="text-lg font-semibold text-gray-900">Total Users</h3>
-          <p className="text-3xl font-bold text-blue-600 mt-2">1,234</p>
+    <div className="min-h-screen w-full space-y-2 bg-[#031329] text-white">
+      {/* Top KPI cards */}
+      <DashboardStatCards />
+
+      {/* Geographic map + fraud + remittance */}
+      <div className="grid grid-cols-1 items-stretch gap-2 2xl:grid-cols-[1.08fr_1fr]">
+        {/* Left: Geographic drilldown */}
+        <div className="min-w-0">
+          <GeographicDrilldown />
         </div>
-        <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
-          <h3 className="text-lg font-semibold text-gray-900">Total Products</h3>
-          <p className="text-3xl font-bold text-green-600 mt-2">567</p>
-        </div>
-        <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
-          <h3 className="text-lg font-semibold text-gray-900">Total Orders</h3>
-          <p className="text-3xl font-bold text-purple-600 mt-2">890</p>
-        </div>
-        <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
-          <h3 className="text-lg font-semibold text-gray-900">Revenue</h3>
-          <p className="text-3xl font-bold text-orange-600 mt-2">$12,345</p>
+
+        {/* Right: Analytics panels */}
+        <div className="flex min-w-0 flex-col gap-2">
+          <FraudHeatmap />
+          <RemittanceAnalytics />
         </div>
       </div>
+
+      {/* Bottom summary panels */}
+      <DashboardSummaryCards />
     </div>
   );
 };
